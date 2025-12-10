@@ -117,7 +117,6 @@ const modules = [
     description: 'Hemothorax & Fluid Assessment',
     icon: LungsIcon,
     color: 'indigo',
-    // REFINED PEARLS for Pleural Deep Dive
     pearls: [
       "The 'PLAPS Point' (Posterior Lateral Alveolar and/or Pleural Syndrome) is the most sensitive zone for fluid. It is lower and more posterior than you think!",
       "The 'Spine Sign' is pathognomonic. If the spine continues ABOVE the diaphragm, fluid is transmitting the sound. If it stops, air is blocking it (Normal).",
@@ -131,7 +130,6 @@ const modules = [
         { icon: Maximize, label: "Landmarks", value: "Posterior Axillary Line, Diaphragm Level (8th-10th rib)." },
         { icon: Eye, label: "Look For", value: "The 'Great Divider' (Diaphragm), Spine, Liver/Spleen." }
       ],
-      // DEEP DIVE STEPS: Focusing on the PLAPS point
       steps: [
         "Start: Place probe at the Posterior Axillary Line at the level of the xiphoid. This is the PLAPS point.",
         "Identify Landmarks: Find the hyperechoic curved line of the Diaphragm and the solid organ (Liver/Spleen) below it.",
@@ -191,7 +189,7 @@ const modules = [
 // --- MAIN APP COMPONENT ---
 
 export default function PocusApp() {
-  const [currentView, setCurrentView] = useState('dashboard'); 
+  const [currentView, setCurrentView] = useState('dashboard'); // 'dashboard' or 'module'
   const [activeModuleId, setActiveModuleId] = useState(null);
   const [activeTab, setActiveTab] = useState('scan');
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -220,15 +218,15 @@ export default function PocusApp() {
     return (
       <div className="min-h-screen bg-slate-50 font-sans text-slate-800 flex flex-col">
         {/* Tighter Utility Header */}
-        <header className="bg-slate-900 text-white py-6 px-6 border-b border-slate-800 relative overflow-hidden">
+        <header className="bg-slate-900 text-white py-6 px-4 sm:px-6 border-b border-slate-800 relative overflow-hidden">
           <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
             <Activity size={120} />
           </div>
           
-          <div className="max-w-5xl mx-auto relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div className="max-w-7xl mx-auto relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
              <div>
                <div className="flex items-center space-x-3 mb-1">
-                 <h1 className="text-2xl font-bold tracking-tight">POCUS Quick Reference</h1>
+                 <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">POCUS Quick Reference</h1>
                  <span className="px-2 py-0.5 bg-white/10 backdrop-blur-sm rounded text-[10px] font-bold uppercase tracking-wider border border-white/20 text-blue-100">
                    SASK IM
                  </span>
@@ -240,9 +238,9 @@ export default function PocusApp() {
           </div>
         </header>
 
-        {/* Module Grid - Clean Spacing */}
-        <main className="flex-1 px-6 py-8">
-          <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Module Grid - Fluid Layout */}
+        <main className="flex-1 px-4 sm:px-6 py-8">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {modules.map((mod) => (
               <button 
                 key={mod.id}
@@ -382,7 +380,7 @@ export default function PocusApp() {
 
         {/* Scrollable Content */}
         <div className="flex-1 overflow-y-auto p-4 lg:p-8 pb-20">
-          <div className="max-w-5xl mx-auto space-y-6">
+          <div className="max-w-7xl mx-auto space-y-6">
 
             {/* --- TAB: THE SCAN --- */}
             {activeTab === 'scan' && (

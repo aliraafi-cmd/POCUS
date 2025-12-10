@@ -189,15 +189,13 @@ const modules = [
 // --- MAIN APP COMPONENT ---
 
 export default function PocusApp() {
-  const [currentView, setCurrentView] = useState('dashboard'); // 'dashboard' or 'module'
+  const [currentView, setCurrentView] = useState('dashboard');
   const [activeModuleId, setActiveModuleId] = useState(null);
   const [activeTab, setActiveTab] = useState('scan');
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   const activeModule = modules.find(m => m.id === activeModuleId);
 
-  // --- NAVIGATION HANDLERS ---
-  
   const openModule = (id) => {
     setActiveModuleId(id);
     setCurrentView('module');
@@ -211,52 +209,42 @@ export default function PocusApp() {
     setSidebarOpen(false);
   };
 
-  // --- VIEWS ---
-
-  // 1. DASHBOARD VIEW (HOME)
+  // 1. DASHBOARD VIEW (FLUID LAYOUT)
   if (currentView === 'dashboard') {
     return (
-      <div className="min-h-screen bg-slate-50 font-sans text-slate-800 flex flex-col w-full overflow-x-hidden">
-        {/* Tighter Utility Header */}
-        <header className="bg-slate-900 text-white py-6 px-4 border-b border-slate-800 relative overflow-hidden">
+      <div className="min-h-screen bg-slate-50 font-sans text-slate-800 flex flex-col w-full">
+        {/* Header */}
+        <header className="bg-slate-900 text-white py-8 px-4 md:px-8 border-b border-slate-800 relative overflow-hidden">
           <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
             <Activity size={120} />
           </div>
-          
-          <div className="w-full max-w-full px-2 relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-             <div>
-               <div className="flex items-center space-x-3 mb-1">
-                 <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">POCUS Quick Reference</h1>
-                 <span className="px-2 py-0.5 bg-white/10 backdrop-blur-sm rounded text-[10px] font-bold uppercase tracking-wider border border-white/20 text-blue-100">
-                   SASK IM
-                 </span>
-               </div>
-               <p className="text-slate-400 text-sm max-w-lg">
-                 Rapid bedside acquisition and interpretation guide.
-               </p>
+          <div className="w-full relative z-10">
+             <div className="inline-block px-3 py-1 bg-white/10 backdrop-blur-sm rounded text-[10px] font-bold uppercase tracking-wider border border-white/20 text-blue-100 mb-4">
+               SASK IM
              </div>
+             <h1 className="text-3xl md:text-4xl font-bold mb-2 tracking-tight">POCUS Quick Reference</h1>
+             <p className="text-slate-400 text-sm md:text-base max-w-2xl leading-relaxed">
+               Rapid bedside acquisition and interpretation guide.
+             </p>
           </div>
         </header>
 
-        {/* Module Grid - Fluid Layout, Grid adapts to screen size */}
-        <main className="flex-1 px-4 py-8 w-full">
-          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Fluid Grid */}
+        <main className="flex-1 px-4 md:px-8 py-8 w-full">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
             {modules.map((mod) => (
               <button 
                 key={mod.id}
                 onClick={() => openModule(mod.id)}
-                className="bg-white p-5 rounded-lg shadow-sm border border-slate-200 hover:shadow-md hover:border-blue-400 transition-all text-left group flex flex-col h-full relative overflow-hidden"
+                className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md hover:border-blue-400 transition-all text-left group flex flex-col h-full relative overflow-hidden"
               >
-                <div className={`absolute top-0 right-0 w-24 h-24 bg-${mod.color}-50 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110 opacity-50`}></div>
-                
-                <div className={`w-10 h-10 rounded-lg bg-${mod.color}-50 flex items-center justify-center text-${mod.color}-600 mb-3 group-hover:scale-110 transition-transform relative z-10`}>
-                  <mod.icon size={20} />
+                <div className={`absolute top-0 right-0 w-32 h-32 bg-${mod.color}-50 rounded-bl-full -mr-6 -mt-6 transition-transform group-hover:scale-110 opacity-50`}></div>
+                <div className={`w-12 h-12 rounded-xl bg-${mod.color}-50 flex items-center justify-center text-${mod.color}-600 mb-4 group-hover:scale-110 transition-transform relative z-10`}>
+                  <mod.icon size={24} />
                 </div>
-                
-                <h3 className="text-lg font-bold text-slate-800 mb-1 relative z-10">{mod.title}</h3>
-                <p className="text-xs text-slate-500 flex-grow relative z-10">{mod.description}</p>
-                
-                <div className="mt-4 flex items-center text-blue-600 text-xs font-bold uppercase tracking-wide opacity-0 group-hover:opacity-100 transition-opacity relative z-10">
+                <h3 className="text-xl font-bold text-slate-800 mb-1 relative z-10">{mod.title}</h3>
+                <p className="text-sm text-slate-500 flex-grow relative z-10">{mod.description}</p>
+                <div className="mt-6 flex items-center text-blue-600 text-xs font-bold uppercase tracking-wide opacity-0 group-hover:opacity-100 transition-opacity relative z-10">
                   Open Module <ChevronRight size={14} className="ml-1" />
                 </div>
               </button>
@@ -264,13 +252,12 @@ export default function PocusApp() {
           </div>
         </main>
 
-        {/* Footer / Credits */}
-        <footer className="bg-white border-t border-slate-200 py-6 text-center w-full">
-           <div className="flex items-center justify-center space-x-2 text-slate-400 mb-1">
-             <Code2 size={14} />
-             <span className="text-[10px] font-bold uppercase tracking-widest">BETA RELEASE v0.9</span>
+        <footer className="bg-white border-t border-slate-200 py-8 text-center w-full mt-auto">
+           <div className="flex items-center justify-center space-x-2 text-slate-400 mb-2">
+             <Code2 size={16} />
+             <span className="text-xs font-bold uppercase tracking-widest">BETA RELEASE v0.9</span>
            </div>
-           <p className="text-[10px] text-slate-500">
+           <p className="text-xs text-slate-500">
              Internal Medicine • University of Saskatchewan
            </p>
         </footer>
@@ -278,11 +265,11 @@ export default function PocusApp() {
     );
   }
 
-  // 2. MODULE VIEW (The Tool - Desktop Optimized)
+  // 2. MODULE VIEW (FULL SCREEN FLUID)
   return (
     <div className="flex h-screen bg-slate-50 text-slate-800 font-sans overflow-hidden relative w-full">
       
-      {/* SIDEBAR NAVIGATION */}
+      {/* Mobile Sidebar Overlay */}
       {isSidebarOpen && (
         <div 
           className="fixed inset-0 bg-black/50 z-20 lg:hidden"
@@ -290,40 +277,41 @@ export default function PocusApp() {
         />
       )}
 
+      {/* Sidebar */}
       <aside className={`
         fixed lg:static inset-y-0 left-0 z-30
-        w-72 bg-slate-900 text-white transform transition-transform duration-300 ease-in-out flex flex-col h-full
+        w-80 bg-slate-900 text-white transform transition-transform duration-300 ease-in-out flex flex-col h-full
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
         <div className="p-6 border-b border-slate-700 flex items-center justify-between shrink-0">
           <div>
-            <h1 className="text-lg font-bold text-blue-400 tracking-tight">SASK IM POCUS</h1>
+            <h1 className="text-xl font-bold text-blue-400 tracking-tight">SASK IM</h1>
             <p className="text-[10px] text-slate-400 uppercase tracking-wider">Quick Reference</p>
           </div>
           <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-slate-400 hover:text-white transition-colors">
-            <X size={20} />
+            <X size={24} />
           </button>
         </div>
         
         <nav className="p-4 flex-1 overflow-y-auto flex flex-col">
           <button 
              onClick={goHome}
-             className="w-full flex items-center px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800 hover:text-white mb-6 transition-colors shrink-0"
+             className="w-full flex items-center px-3 py-3 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800 hover:text-white mb-6 transition-colors shrink-0"
           >
-             <ArrowLeft size={16} className="mr-3" />
+             <ArrowLeft size={18} className="mr-3" />
              Back to Dashboard
           </button>
 
           <div className="mb-6 shrink-0">
-            <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2 px-2">Modules</h3>
+            <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3 px-2">Modules</h3>
             <ul className="space-y-1">
               {modules.map(mod => (
                 <li key={mod.id}>
                    <button 
                      onClick={() => openModule(mod.id)}
-                     className={`w-full flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-colors ${activeModuleId === mod.id ? 'bg-blue-600 text-white shadow-md' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}
+                     className={`w-full flex items-center px-3 py-3 rounded-lg text-sm font-medium transition-colors ${activeModuleId === mod.id ? 'bg-blue-600 text-white shadow-md' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}
                    >
-                     <mod.icon size={16} className="mr-3" />
+                     <mod.icon size={18} className="mr-3" />
                      <span className="truncate">{mod.title}</span>
                    </button>
                 </li>
@@ -347,47 +335,46 @@ export default function PocusApp() {
         </nav>
       </aside>
 
-      {/* MAIN CONTENT AREA */}
+      {/* Main Content */}
       <main className="flex-1 flex flex-col h-full overflow-hidden w-full relative bg-slate-50">
         
         {/* Header */}
         <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 lg:px-8 shadow-sm z-10 shrink-0">
           <div className="flex items-center flex-1 min-w-0 mr-4">
-            <button onClick={() => setSidebarOpen(true)} className="lg:hidden mr-3 text-slate-500 hover:text-slate-700 transition-colors">
+            <button onClick={() => setSidebarOpen(true)} className="lg:hidden mr-4 text-slate-500 hover:text-slate-700 transition-colors">
               <Menu size={24} />
             </button>
-            <h2 className="text-lg font-bold text-slate-800 truncate">{activeModule.title}</h2>
+            <h2 className="text-lg md:text-xl font-bold text-slate-800 truncate">{activeModule.title}</h2>
           </div>
           
-          {/* Tab Switcher */}
+          {/* Tabs */}
           <div className="flex bg-slate-100 p-1 rounded-lg shrink-0 overflow-x-auto no-scrollbar">
              <button 
                 onClick={() => setActiveTab('scan')}
-                className={`flex items-center space-x-2 px-3 sm:px-4 py-1.5 text-xs sm:text-sm font-semibold rounded-md transition-all whitespace-nowrap ${activeTab === 'scan' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                className={`flex items-center space-x-2 px-3 md:px-4 py-1.5 text-xs md:text-sm font-semibold rounded-md transition-all whitespace-nowrap ${activeTab === 'scan' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
               >
-                <Scan size={16} className="hidden sm:block" />
+                <Scan size={16} className="hidden md:block" />
                 <span>The Scan</span>
               </button>
               <button 
                 onClick={() => setActiveTab('reference')}
-                className={`flex items-center space-x-2 px-3 sm:px-4 py-1.5 text-xs sm:text-sm font-semibold rounded-md transition-all whitespace-nowrap ${activeTab === 'reference' ? 'bg-white text-emerald-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                className={`flex items-center space-x-2 px-3 md:px-4 py-1.5 text-xs md:text-sm font-semibold rounded-md transition-all whitespace-nowrap ${activeTab === 'reference' ? 'bg-white text-emerald-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
               >
-                <ImageIcon size={16} className="hidden sm:block" />
+                <ImageIcon size={16} className="hidden md:block" />
                 <span>Reference</span>
               </button>
           </div>
         </header>
 
         {/* Scrollable Content */}
-        <div className="flex-1 overflow-y-auto p-3 sm:p-4 lg:p-8 pb-20 w-full">
+        <div className="flex-1 overflow-y-auto p-4 md:p-8 w-full">
           <div className="w-full max-w-full space-y-6">
 
-            {/* --- TAB: THE SCAN --- */}
+            {/* THE SCAN TAB */}
             {activeTab === 'scan' && (
               <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
                 
-                {/* 1. Parameters Card */}
-                <div className="bg-white rounded-xl border border-slate-200 p-4 sm:p-5 shadow-sm">
+                <div className="bg-white rounded-xl border border-slate-200 p-5 md:p-6 shadow-sm w-full">
                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-4">
                         {activeModule.scan.params.slice(0, 3).map((p, i) => (
@@ -402,30 +389,28 @@ export default function PocusApp() {
                    </div>
                 </div>
 
-                {/* 2. Steps List */}
-                <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
-                  <div className={`bg-${activeModule.color}-50/50 border-b border-${activeModule.color}-100 p-4 flex items-center`}>
+                <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm w-full">
+                  <div className={`bg-${activeModule.color}-50/50 border-b border-${activeModule.color}-100 p-4 md:p-5 flex items-center`}>
                     <h3 className={`font-bold text-${activeModule.color}-900`}>Scanning Technique</h3>
                   </div>
-                  <div className="p-4 sm:p-6 space-y-4">
+                  <div className="p-5 md:p-6 space-y-4">
                     {activeModule.scan.steps.map((step, i) => (
                        <Step key={i} text={step} />
                     ))}
                   </div>
                 </div>
 
-                {/* 3. Quality & Limitations */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 w-full">
                    <div className="bg-white rounded-xl border border-emerald-100 shadow-sm overflow-hidden h-full">
                       <div className="bg-emerald-50/50 border-b border-emerald-100 p-4 flex items-center">
                          <CheckCircle size={20} className="text-emerald-600 mr-2" />
                          <h3 className="font-bold text-emerald-900 text-sm">Reliable Scan Criteria</h3>
                       </div>
-                      <div className="p-4">
+                      <div className="p-5">
                          <ul className="space-y-3">
                             {activeModule.scan.qualityCriteria.map((crit, i) => (
                                <li key={i} className="flex items-start">
-                                  <div className="min-w-[6px] h-[6px] rounded-full bg-emerald-400 mt-1.5 mr-2"></div>
+                                  <div className="min-w-[6px] h-[6px] rounded-full bg-emerald-400 mt-1.5 mr-3"></div>
                                   <span className="text-sm text-slate-700 leading-snug">{crit}</span>
                                </li>
                             ))}
@@ -438,12 +423,12 @@ export default function PocusApp() {
                          <HelpCircle size={20} className="text-slate-500 mr-2" />
                          <h3 className="font-bold text-slate-700 text-sm">Indeterminate / Negative</h3>
                       </div>
-                      <div className="p-4">
+                      <div className="p-5">
                          <p className="text-xs text-slate-400 mb-3 uppercase tracking-wide font-bold">Limitations</p>
                          <ul className="space-y-3">
                             {activeModule.scan.indeterminate.map((limit, i) => (
                                <li key={i} className="flex items-start">
-                                  <div className="min-w-[6px] h-[6px] rounded-full bg-slate-300 mt-1.5 mr-2"></div>
+                                  <div className="min-w-[6px] h-[6px] rounded-full bg-slate-300 mt-1.5 mr-3"></div>
                                   <span className="text-sm text-slate-600 leading-snug">{limit}</span>
                                </li>
                             ))}
@@ -452,9 +437,8 @@ export default function PocusApp() {
                    </div>
                 </div>
 
-                {/* 4. Common Pitfalls */}
-                <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-4 sm:p-6">
-                   <div className="flex items-center mb-4">
+                <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-5 md:p-6 w-full">
+                   <div className="flex items-center mb-5">
                       <AlertTriangle size={20} className="text-amber-500 mr-2" />
                       <h3 className="font-bold text-slate-800">Common Pitfalls</h3>
                    </div>
@@ -473,26 +457,15 @@ export default function PocusApp() {
               </div>
             )}
 
-            {/* --- TAB: REFERENCE --- */}
+            {/* REFERENCE TAB */}
             {activeTab === 'reference' && (
               <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                 <ReferenceCard type="positive" data={activeModule.referenceData.positive} />
+                 <ReferenceCard type="negative" data={activeModule.referenceData.negative} />
                  
-                 {/* Positive Scan Card */}
-                 <ReferenceCard 
-                   type="positive"
-                   data={activeModule.referenceData.positive}
-                 />
-
-                 {/* Negative Scan Card */}
-                 <ReferenceCard 
-                   type="negative"
-                   data={activeModule.referenceData.negative}
-                 />
-
-                 {/* External Resources */}
-                 <div className="bg-white rounded-xl border border-slate-200 p-5">
+                 <div className="bg-white rounded-xl border border-slate-200 p-5 md:p-6 w-full">
                     <h3 className="font-bold text-slate-800 mb-4 flex items-center">
-                      <ExternalLink size={16} className="mr-2" /> 
+                      <ExternalLink size={18} className="mr-2" /> 
                       External Resources
                     </h3>
                     <div className="space-y-2">
@@ -525,8 +498,8 @@ export default function PocusApp() {
 function ParamItem({ icon: Icon, label, value }) {
   return (
     <div className="flex items-start space-x-3">
-      <div className="p-1.5 bg-slate-100 rounded-md text-slate-500 mt-0.5">
-        <Icon size={16} />
+      <div className="p-1.5 bg-slate-100 rounded-md text-slate-500 mt-0.5 shrink-0">
+        <Icon size={18} />
       </div>
       <div>
         <span className="block text-xs font-bold text-slate-400 uppercase tracking-wide">{label}</span>
@@ -552,15 +525,15 @@ function ReferenceCard({ type, data }) {
   const borderColor = isPositive ? 'border-blue-100' : 'border-slate-200';
 
   return (
-    <div className={`bg-white rounded-xl border ${borderColor} shadow-sm overflow-hidden`}>
+    <div className={`bg-white rounded-xl border ${borderColor} shadow-sm overflow-hidden w-full`}>
       <div className={`${bgColor} p-4 border-b ${borderColor} flex items-center`}>
         <div className={`font-bold ${accentColor} flex items-center`}>
           {isPositive ? <CheckCircle size={18} className="mr-2"/> : <Maximize size={18} className="mr-2"/>}
           {data.title}
         </div>
       </div>
-      <div className="p-0 lg:flex">
-         <div className="lg:w-1/2 relative bg-black min-h-[250px] lg:min-h-[300px]">
+      <div className="p-0 xl:flex">
+         <div className="xl:w-1/2 relative bg-black min-h-[250px] xl:min-h-[350px]">
            <img 
               src={data.image} 
               alt={data.title} 
@@ -568,7 +541,7 @@ function ReferenceCard({ type, data }) {
               onError={(e) => { e.target.src = 'https://placehold.co/600x400?text=Image+Load+Error'; }}
             />
          </div>
-         <div className="p-5 lg:w-1/2 flex flex-col justify-center">
+         <div className="p-5 md:p-6 xl:w-1/2 flex flex-col justify-center">
             <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">Key Findings</h4>
             <ul className="space-y-3">
                {data.criteria.map((item, i) => (

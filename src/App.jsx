@@ -216,14 +216,14 @@ export default function PocusApp() {
   // 1. DASHBOARD VIEW (HOME)
   if (currentView === 'dashboard') {
     return (
-      <div className="min-h-screen bg-slate-50 font-sans text-slate-800 flex flex-col">
+      <div className="min-h-screen bg-slate-50 font-sans text-slate-800 flex flex-col w-full overflow-x-hidden">
         {/* Tighter Utility Header */}
-        <header className="bg-slate-900 text-white py-6 px-4 sm:px-6 border-b border-slate-800 relative overflow-hidden">
+        <header className="bg-slate-900 text-white py-6 px-4 border-b border-slate-800 relative overflow-hidden">
           <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
             <Activity size={120} />
           </div>
           
-          <div className="max-w-7xl mx-auto relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div className="w-full max-w-full px-2 relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
              <div>
                <div className="flex items-center space-x-3 mb-1">
                  <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">POCUS Quick Reference</h1>
@@ -238,9 +238,9 @@ export default function PocusApp() {
           </div>
         </header>
 
-        {/* Module Grid - Fluid Layout, 2 Columns for now to fill width */}
-        <main className="flex-1 px-4 sm:px-6 py-8">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Module Grid - Fluid Layout, Grid adapts to screen size */}
+        <main className="flex-1 px-4 py-8 w-full">
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
             {modules.map((mod) => (
               <button 
                 key={mod.id}
@@ -265,7 +265,7 @@ export default function PocusApp() {
         </main>
 
         {/* Footer / Credits */}
-        <footer className="bg-white border-t border-slate-200 py-6 text-center">
+        <footer className="bg-white border-t border-slate-200 py-6 text-center w-full">
            <div className="flex items-center justify-center space-x-2 text-slate-400 mb-1">
              <Code2 size={14} />
              <span className="text-[10px] font-bold uppercase tracking-widest">BETA RELEASE v0.9</span>
@@ -280,7 +280,7 @@ export default function PocusApp() {
 
   // 2. MODULE VIEW (The Tool - Desktop Optimized)
   return (
-    <div className="flex h-screen bg-slate-50 text-slate-800 font-sans overflow-hidden relative">
+    <div className="flex h-screen bg-slate-50 text-slate-800 font-sans overflow-hidden relative w-full">
       
       {/* SIDEBAR NAVIGATION */}
       {isSidebarOpen && (
@@ -292,7 +292,7 @@ export default function PocusApp() {
 
       <aside className={`
         fixed lg:static inset-y-0 left-0 z-30
-        w-72 bg-slate-900 text-white transform transition-transform duration-300 ease-in-out flex flex-col
+        w-72 bg-slate-900 text-white transform transition-transform duration-300 ease-in-out flex flex-col h-full
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
         <div className="p-6 border-b border-slate-700 flex items-center justify-between shrink-0">
@@ -360,17 +360,17 @@ export default function PocusApp() {
           </div>
           
           {/* Tab Switcher */}
-          <div className="flex bg-slate-100 p-1 rounded-lg shrink-0">
+          <div className="flex bg-slate-100 p-1 rounded-lg shrink-0 overflow-x-auto no-scrollbar">
              <button 
                 onClick={() => setActiveTab('scan')}
-                className={`flex items-center space-x-2 px-3 sm:px-4 py-1.5 text-xs sm:text-sm font-semibold rounded-md transition-all ${activeTab === 'scan' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                className={`flex items-center space-x-2 px-3 sm:px-4 py-1.5 text-xs sm:text-sm font-semibold rounded-md transition-all whitespace-nowrap ${activeTab === 'scan' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
               >
                 <Scan size={16} className="hidden sm:block" />
                 <span>The Scan</span>
               </button>
               <button 
                 onClick={() => setActiveTab('reference')}
-                className={`flex items-center space-x-2 px-3 sm:px-4 py-1.5 text-xs sm:text-sm font-semibold rounded-md transition-all ${activeTab === 'reference' ? 'bg-white text-emerald-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                className={`flex items-center space-x-2 px-3 sm:px-4 py-1.5 text-xs sm:text-sm font-semibold rounded-md transition-all whitespace-nowrap ${activeTab === 'reference' ? 'bg-white text-emerald-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
               >
                 <ImageIcon size={16} className="hidden sm:block" />
                 <span>Reference</span>
@@ -379,15 +379,15 @@ export default function PocusApp() {
         </header>
 
         {/* Scrollable Content */}
-        <div className="flex-1 overflow-y-auto p-4 lg:p-8 pb-20">
-          <div className="max-w-7xl mx-auto space-y-6">
+        <div className="flex-1 overflow-y-auto p-3 sm:p-4 lg:p-8 pb-20 w-full">
+          <div className="w-full max-w-full space-y-6">
 
             {/* --- TAB: THE SCAN --- */}
             {activeTab === 'scan' && (
               <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
                 
                 {/* 1. Parameters Card */}
-                <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+                <div className="bg-white rounded-xl border border-slate-200 p-4 sm:p-5 shadow-sm">
                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-4">
                         {activeModule.scan.params.slice(0, 3).map((p, i) => (
@@ -407,7 +407,7 @@ export default function PocusApp() {
                   <div className={`bg-${activeModule.color}-50/50 border-b border-${activeModule.color}-100 p-4 flex items-center`}>
                     <h3 className={`font-bold text-${activeModule.color}-900`}>Scanning Technique</h3>
                   </div>
-                  <div className="p-6 space-y-4">
+                  <div className="p-4 sm:p-6 space-y-4">
                     {activeModule.scan.steps.map((step, i) => (
                        <Step key={i} text={step} />
                     ))}
@@ -453,7 +453,7 @@ export default function PocusApp() {
                 </div>
 
                 {/* 4. Common Pitfalls */}
-                <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+                <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-4 sm:p-6">
                    <div className="flex items-center mb-4">
                       <AlertTriangle size={20} className="text-amber-500 mr-2" />
                       <h3 className="font-bold text-slate-800">Common Pitfalls</h3>
